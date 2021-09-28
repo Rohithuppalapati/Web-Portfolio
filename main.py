@@ -3,7 +3,7 @@ app=Flask(__name__)
 
 @app.route('/')
 def link1():
-    return render_template('about.html')
+    return render_template('index.html')
 
 @app.route('/index.html')
 def link2():
