@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request,redirect
 app=Flask(__name__)
 
 @app.route('/')
@@ -9,6 +9,20 @@ def new():
 def html_page(website):
     return render_template(website)
 
+def database_file(data):
+    database=open('database.txt','a')
+    name=data['fullname']
+    email=data['mail']
+    subject=data['subject']
+    message=data['message']
+    file=database.write(f'\n {name},{email},{subject},{message}')
+
 @app.route('/submit_form',methods=['POST','GET'])
 def submit():
-    return 'Form successfully submitted.Thank You '
+    if request.method == 'POST':
+        data=request.form.to_dict()
+        database_file(data)
+        return redirect('/thankyou.html')
+    else:
+        return 'something is wrong please try again'
+
